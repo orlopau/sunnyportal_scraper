@@ -34,6 +34,16 @@ module.exports = class Scraper {
         }
     }
 
+    async getData(){
+        let pv_text = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-pv > div > span.batteryStatus-value.h3.header");
+        let home_text = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-consumption > div.batteryStatus-text > span.batteryStatus-value.h3.header");
+        let grid_text = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-grid > div > span.batteryStatus-value.h3.header");
+        let battery_percentage = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-battery > div.batteryStatus-text.battery-percentage > span.batteryStatus-value.h3.header");
+        let battery_watts = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-battery > div.batteryStatus-text.battery-power > span.batteryStatus-value.h3.header");
+
+
+    }
+
     /**
      * Performs login action and navigates to next site.
      * @returns {Promise<void>}
@@ -47,8 +57,23 @@ module.exports = class Scraper {
         await user_field.type(this.user);
         await password_field.type(this.pass);
 
-        const navPromise = this.page.waitForNavigation();
+        const navPromise = this.page.waitForNavigation({waitUntil: "domcontentloaded"});
         await button.click();
         await navPromise;
+    }
+
+    /**
+     * navigates from logged in start page to current status
+     * @returns {Promise<void>}
+     * @private
+     */
+    async _navigateToStatusPage(){
+        let button_chevron = await this.page.$("#collapseNavi");
+        await button_chevron.click();
+
+        let nav_promise = this.page.waitForNavigation({waitUntil: "domcontentloaded"});
+        let button_status = await this.page.$("#ctl00_NavigationLeftMenuControl_0_2");
+        await button_status.click();
+        await nav_promise;
     }
 };
