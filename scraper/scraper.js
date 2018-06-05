@@ -36,13 +36,4 @@ module.exports = class Scraper {
         }
     }
 
-    async getData(){
-        let pv_text = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-pv > div > span.batteryStatus-value.h3.header");
-        let home_text = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-consumption > div.batteryStatus-text > span.batteryStatus-value.h3.header");
-        let grid_text = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-grid > div > span.batteryStatus-value.h3.header");
-        let battery_percentage = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-battery > div.batteryStatus-text.battery-percentage > span.batteryStatus-value.h3.header");
-        let battery_watts = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-battery > div.batteryStatus-text.battery-power > span.batteryStatus-value.h3.header");
-
-
-    }
 };

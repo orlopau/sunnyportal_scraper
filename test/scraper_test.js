@@ -35,7 +35,13 @@ describe("Scraper", function () {
 
     describe('retrieve data', function () {
         it("should retrieve current data", async function(){
-            await scraper.getData();
+            let data = await sunny_helper.getStatusData(scraper.page);
+            console.log(data);
+            expect(data).to.have.all.keys("pv", "home", "grid", "battery_percentage", "battery_watts");
         })
     });
+
+    after(function(){
+        scraper.browser.close()
+    })
 });
