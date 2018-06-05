@@ -15,7 +15,7 @@ function sleep(ms) {
 
 describe("Scraper", function () {
     this.timeout(20000);
-    let scraper = new Scraper(process.env.SUNNY_USER, process.env.SUNNY_PASS);
+    const scraper = new Scraper(process.env.SUNNY_USER, process.env.SUNNY_PASS);
 
     describe("launch", function () {
        it("should open the browser", async function() {
@@ -26,27 +26,32 @@ describe("Scraper", function () {
     describe("login", function () {
         it("should perform a login", async function () {
             await scraper.login();
-            expect(scraper.page.url()).to.contain("https://www.sunnyportal.com/Templates/UserProfile.aspx")
+            expect(scraper.page.url()).to.contain("HoManLive")
         })
-    });
-
-    describe("navigation", function(){
-       it("should navigate to the current status page", async function(){
-           await sunny_helper.navigateToStatusPage(scraper.page);
-           expect(scraper.page.url()).to.contain("https://www.sunnyportal.com/FixedPages/HoManLive.aspx")
-       })
     });
 
     describe('retrieve data', function () {
-        it("should retrieve current data", async function(){
-            await sleep(5000);
-            let data = await sunny_helper.getStatusData(scraper.page);
-            console.log(data);
+        it("should activate updating data", async function(){
+            await scraper.start();
+        });
+
+        let data;
+
+        it("should retrieve data", async function(){
+            await sleep(10000);
+            data = scraper.getData();
             expect(data).to.have.all.keys("pv", "home", "grid", "battery_percentage", "battery_watts");
+        });
+
+        it("should have updated data", async function(){
+            await sleep(10000);
+            let newData = scraper.getData();
+            expect(data).to.not.be.equal(newData)
         })
     });
 
-    after(function(){
-        scraper.browser.close()
+    after(async function(){
+        await scraper.destroy();
+        scraper.stop();
     })
 });

@@ -1,7 +1,7 @@
 class Helpers {
     /**
      * Performs login action and navigates to next site.
-     * @param page {Puppeteer.Page}
+     * @param page
      * @param pass {string} password
      * @param user {string} username
      * @returns {!Promise<void>}
@@ -49,7 +49,7 @@ class Helpers {
 
     /**
      * Retrieves data from status page
-     * @param page {Puppeteer.page}
+     * @param page
      * @returns {!Promise<SunnyData>} data object
      */
     static async getStatusData(page) {
@@ -101,13 +101,13 @@ class Helpers {
 
     /**
      * retrieves inner html of element
-     * @param root Root element (page)
+     * @param page Root element
      * @param {string} selector Selector for element
      * @returns {Promise<string>} returns innerHTML of element selected
      * @private
      */
-    static async _getInnerHTML(root, selector) {
-        return await root.$eval(selector, (element) => {
+    static async _getInnerHTML(page, selector) {
+        return await page.$eval(selector, (element) => {
             return element.innerHTML
         })
     }
