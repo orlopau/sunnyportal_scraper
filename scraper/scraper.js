@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const sunny_helper = require('./helpers');
 
 module.exports = class Scraper {
     /**
@@ -29,7 +30,7 @@ module.exports = class Scraper {
         await this.page.goto("https://www.sunnyportal.com", {waitUntil: "domcontentloaded"});
         if (this.page.$("ctl00_ContentPlaceHolder1_Logincontrol1_DivLogin") != null) {
             /* Not logged in, login field exists. */
-            await this._authenticate();
+            await sunny_helper.authenticate(this.page, this.pass, this.user)
         } else {
             /* Already logged in. */
         }
@@ -43,42 +44,5 @@ module.exports = class Scraper {
         let battery_watts = await this.page.$("#ctl00_ContentPlaceHolder1_LiveSSEnabled > div:nth-child(4) > div.batteryStatus-container > div.batteryStatus-battery > div.batteryStatus-text.battery-power > span.batteryStatus-value.h3.header");
 
 
-    }
-
-    /**
-     * Performs login action and navigates to next site.
-     * @returns {Promise<void>}
-     * @private
-     */
-    async _authenticate() {
-        let user_field = await this.page.$("#txtUserName");
-        let password_field = await this.page.$("#txtPassword");
-        let button = await this.page.$("#ctl00_ContentPlaceHolder1_Logincontrol1_LoginBtn");
-
-        if(this.user == null || this.pass == null){
-            throw new TypeError("No username or password specified")
-        }
-
-        await user_field.type(this.user);
-        await password_field.type(this.pass);
-
-        const navPromise = this.page.waitForNavigation({waitUntil: "domcontentloaded"});
-        await button.click();
-        await navPromise;
-    }
-
-    /**
-     * navigates from logged in start page to current status
-     * @returns {Promise<void>}
-     * @private
-     */
-    async _navigateToStatusPage(){
-        let button_chevron = await this.page.$("#collapseNavi");
-        await button_chevron.click();
-
-        let nav_promise = this.page.waitForNavigation({waitUntil: "domcontentloaded"});
-        let button_status = await this.page.$("#ctl00_NavigationLeftMenuControl_0_2");
-        await button_status.click();
-        await nav_promise;
     }
 };

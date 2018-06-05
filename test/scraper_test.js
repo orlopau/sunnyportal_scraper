@@ -1,4 +1,5 @@
 const expect = require("chai").expect;
+const sunny_helper = require('../scraper/helpers');
 const Scraper = require("../scraper/scraper.js");
 
 /*
@@ -27,7 +28,7 @@ describe("Scraper", function () {
 
     describe("navigation", function(){
        it("should navigate to the current status page", async function(){
-           await scraper._navigateToStatusPage();
+           await sunny_helper.navigateToStatusPage(scraper.page);
            expect(scraper.page.url()).to.contain("https://www.sunnyportal.com/FixedPages/HoManLive.aspx")
        })
     });
