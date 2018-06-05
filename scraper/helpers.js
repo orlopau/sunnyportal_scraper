@@ -1,11 +1,4 @@
-const Puppeteer = require("puppeteer");
-
 class Helpers {
-    /**
-     * Puppeteer
-     * @external "Puppeteer"
-     */
-
     /**
      * Performs login action and navigates to next site.
      * @param page {Puppeteer.Page}
@@ -106,6 +99,13 @@ class Helpers {
         return parseFloat(number);
     }
 
+    /**
+     * retrieves inner html of element
+     * @param root Root element (page)
+     * @param {string} selector Selector for element
+     * @returns {Promise<string>} returns innerHTML of element selected
+     * @private
+     */
     static async _getInnerHTML(root, selector) {
         return await root.$eval(selector, (element) => {
             return element.innerHTML
