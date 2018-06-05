@@ -12,11 +12,12 @@ module.exports = class Scraper {
 
     /**
      * Setups the scraper. Needs to be called once.
-     * @param {boolean} hadless True for headless operation.
+     * @param {boolean} headless True for headless operation.
+     * @param {Array} args for chromium
      * @returns {Promise<void>}
      */
-    async setup(hadless = true) {
-        this.browser = await puppeteer.launch({headless: false, args: ['--no-sandbox', '--disable-setuid-sandbox']});
+    async setup(headless = true, args = []) {
+        this.browser = await puppeteer.launch({headless: headless, args: args});
         this.page = await this.browser.newPage();
     }
 
@@ -53,6 +54,10 @@ module.exports = class Scraper {
         let user_field = await this.page.$("#txtUserName");
         let password_field = await this.page.$("#txtPassword");
         let button = await this.page.$("#ctl00_ContentPlaceHolder1_Logincontrol1_LoginBtn");
+
+        if(this.user == null || this.pass == null){
+            throw new TypeError("No username or password specified")
+        }
 
         await user_field.type(this.user);
         await password_field.type(this.pass);
