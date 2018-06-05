@@ -9,6 +9,10 @@ const Scraper = require("../scraper/scraper.js");
  * SUNNY_PASS
  */
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 describe("Scraper", function () {
     this.timeout(20000);
     let scraper = new Scraper(process.env.SUNNY_USER, process.env.SUNNY_PASS);
@@ -35,6 +39,7 @@ describe("Scraper", function () {
 
     describe('retrieve data', function () {
         it("should retrieve current data", async function(){
+            await sleep(5000);
             let data = await sunny_helper.getStatusData(scraper.page);
             console.log(data);
             expect(data).to.have.all.keys("pv", "home", "grid", "battery_percentage", "battery_watts");
