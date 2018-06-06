@@ -2,9 +2,8 @@
   "name": "sunnyportal-scraper",
   "version": "1.0.0",
   "description": "Scrapes the Sunnyportal using headless chromium.",
-  "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "SUNNY_USER=mail@mail.com SUNNY_PASS=pass mocha --bail"
   },
   "keywords": [
     "sunnnyportal",
@@ -13,7 +12,8 @@
     "home",
     "iot"
   ],
-  "author": "Paul Orlob",
+  "author": "Paul Orlob <orlobpaul@gmail.com>",
+  "repository": "https://github.com/orlopau/sunnyportal_scraper.git",
   "license": "MIT",
   "dependencies": {
     "puppeteer": "^1.4.0"
