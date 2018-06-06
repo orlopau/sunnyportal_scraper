@@ -1,5 +1,6 @@
 {
   "name": "sunnyportal-scraper",
+  "main": "index.js",
   "version": "1.0.0",
   "description": "Scrapes the Sunnyportal using headless chromium.",
   "scripts": {
