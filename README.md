@@ -1,6 +1,9 @@
 # Sunnyportal Scraper
 
-NodeJS library to retrieve information on PV plants from the [Sunnyportal](https://www.sunnyportal.com)
+[![NPM](https://nodei.co/npm/sunnyportal-scraper.png)](https://nodei.co/npm/sunnyportal-scraper/)
+
+NodeJS library to retrieve information on PV plants from the [Sunnyportal](https://www.sunnyportal.com).  
+Documentation can be found [here](https://orlopau.github.io/sunnyportal_scraper).
 
 ## Usage
 
