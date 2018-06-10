@@ -1,8 +1,16 @@
+/**
+ * @fileOverview Scraper
+ * @author Paul Orlob
+ * @module scraper
+ */
+
 const puppeteer = require('puppeteer');
 const sunny_helper = require('./helpers');
 
-module.exports = class Scraper {
+class Scraper {
+
     /**
+     * @constructor
      * @param {string} username Username for sunnyportal
      * @param {string} password Password
      * @param {number }refreshLoginTimer time until login is refreshed in seconds
@@ -73,7 +81,7 @@ module.exports = class Scraper {
     }
 
     /**
-     * Call on destroying the instance.
+     * Call to destroy the browser instance.
      * @returns {Promise<void>} resolves when destroyed
      */
     async destroy(){
@@ -94,4 +102,6 @@ module.exports = class Scraper {
         await sunny_helper.navigateToStatusPage(this.page)
     }
 
-};
+}
+
+module.exports = Scraper;

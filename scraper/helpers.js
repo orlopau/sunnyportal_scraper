@@ -1,4 +1,24 @@
+/**
+ * @fileOverview Helper functions for scraping and navigating
+ * @author Paul Orlob
+ */
+
+/**
+ * Sunnyportal data
+ * @global
+ * @typedef {Object} SunnyData
+ * @property {number} pv PV consumption
+ * @property {number} home home consumption
+ * @property {number} grid grid feed is negative, grid draw is positive
+ * @property {number} battery_percentage percentage of pv battery
+ * @property {number} battery_watts battery charging is negative, battery usage positive
+ */
+
+/**
+ * @class
+ */
 class Helpers {
+
     /**
      * Performs login action and navigates to next site.
      * @param page
@@ -36,16 +56,6 @@ class Helpers {
         await button_status.click();
         await nav_promise;
     }
-
-    /**
-     * Sunnyportal data
-     * @typedef {Object} SunnyData
-     * @property {number} pv PV consumption
-     * @property {number} home home consumption
-     * @property {number} grid grid feed is negative, grid draw is positive
-     * @property {number} battery_percentage percentage of pv battery
-     * @property {number} battery_watts battery charging is negative, battery usage positive
-     */
 
     /**
      * Retrieves data from status page
