@@ -14,6 +14,7 @@ const Scraper = require("sunnyportal-scraper");
 const scraper = new Scraper('username', 'password');
 ```
 
+Parameters for all operations can be found in the [docs](https://orlopau.github.io/sunnyportal_scraper/module-scraper-Scraper.html).  
 Setup the scraper. This operation is asynchronous.
 
 ```js

@@ -28,7 +28,7 @@ class Scraper {
     /**
      * Setups the scraper. Needs to be called once.
      * @param {boolean} headless True for headless operation.
-     * @param {Array} args for chromium
+     * @param {Array} args args for chromium
      * @returns {Promise<void>}
      */
     async setup(headless = true, args = []) {
