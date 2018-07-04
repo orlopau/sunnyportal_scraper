@@ -48,25 +48,32 @@ class Scraper {
      * Starts retrieving data
      */
     async start(){
-        this.loginInterval = setInterval(async () => {
+        let relog = async () => {
             try {
                 this.isRelogging = true;
                 await this.login();
-                this.isRelogging = false
             } catch (e) {
-                throw new Error(e)
+                console.log("Login failed with " + e);
+                await relog()
+            } finally {
+                this.isRelogging = false
             }
-        }, this.timeRefreshMillis);
+        };
 
-        this.dataInterval = setInterval(async () => {
+        let data = async () => {
             try {
                 if(!this.isRelogging){
                     this.data = await sunny_helper.getStatusData(this.page);
                 }
             } catch (e) {
-                throw new Error(e)
+                console.log("Data could not be retrieved! Relogging.");
+                await relog()
             }
-        }, this.dataRefreshMillis);
+        };
+
+        this.loginInterval = setInterval(relog, this.timeRefreshMillis);
+
+        this.dataInterval = setInterval(data, this.dataRefreshMillis);
 
 
         await this.login();
