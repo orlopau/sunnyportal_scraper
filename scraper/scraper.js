@@ -51,6 +51,7 @@ class Scraper {
         let relog = async () => {
             try {
                 this.isRelogging = true;
+                console.log("relogging...");
                 await this.login();
             } catch (e) {
                 console.log("Login failed with " + e);
