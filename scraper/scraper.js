@@ -52,6 +52,7 @@ class Scraper {
             try {
                 this.isRelogging = true;
                 console.log("relogging...");
+                await this.page._client.send('Network.clearBrowserCookies');
                 await this.login();
             } catch (e) {
                 console.log("Login failed with " + e);
