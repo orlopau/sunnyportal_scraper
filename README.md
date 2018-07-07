@@ -4,6 +4,7 @@
 
 NodeJS library to retrieve information on PV plants from the [Sunnyportal](https://www.sunnyportal.com).  
 Documentation can be found [here](https://orlopau.github.io/sunnyportal_scraper).
+An example file is included [here](example.js)
 
 ## Usage
 
