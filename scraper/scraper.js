@@ -23,6 +23,7 @@ class Scraper {
         this.dataRefreshMillis = dataRefreshTimer * 1000;
         this.data = null;
         this.isRelogging = false;
+        this.relogError = false;
     }
 
     /**
@@ -40,31 +41,35 @@ class Scraper {
      * get data
      * @returns {?SunnyData}
      */
-    getData(){
+    getData() {
         return this.data;
     }
 
     /**
      * Starts retrieving data
      */
-    async start(){
+    async start() {
         let relog = async () => {
+            if (this.isRelogging) {
+                return;
+            }
+
+            console.log("relogging...");
+            await this.page._client.send('Network.clearBrowserCookies');
             try {
                 this.isRelogging = true;
-                console.log("relogging...");
-                await this.page._client.send('Network.clearBrowserCookies');
                 await this.login();
             } catch (e) {
                 console.log("Login failed with " + e);
-                await relog()
             } finally {
+                await this._sleep(3000);
                 this.isRelogging = false
             }
         };
 
         let data = async () => {
             try {
-                if(!this.isRelogging){
+                if (!this.isRelogging) {
                     this.data = await sunny_helper.getStatusData(this.page);
                 }
             } catch (e) {
@@ -84,7 +89,7 @@ class Scraper {
     /**
      * Stops retrieving data
      */
-    stop(){
+    stop() {
         clearInterval(this.loginInterval);
         clearInterval(this.dataInterval);
     }
@@ -93,7 +98,7 @@ class Scraper {
      * Call to destroy the browser instance.
      * @returns {Promise<void>} resolves when destroyed
      */
-    async destroy(){
+    async destroy() {
         await this.browser.close();
     }
 
@@ -101,14 +106,35 @@ class Scraper {
      * Performs login or relog on page.
      * @returns {Promise<void>}
      */
-    async login(){
+    async login(force = false) {
+        if(this.relogError && !force){
+            console.log("Wont relog already recursively relogging!");
+            return;
+        }
+
         await this.page.goto("https://www.sunnyportal.com", {waitUntil: "domcontentloaded"});
         if (this.page.$("ctl00_ContentPlaceHolder1_Logincontrol1_DivLogin") != null && !this.page.url().includes("UserProfile")) {
             /* Not logged in, login field exists. */
-            await sunny_helper.authenticate(this.page, this.pass, this.user)
+            try {
+                await sunny_helper.authenticate(this.page, this.pass, this.user);
+                this.relogError = false;
+            } catch (e) {
+                console.log("Error in login method: Couldnt authenticate: " + e);
+                this.relogError = true;
+                await this._sleep(10000);
+                await this.login(true)
+            }
         }
 
         await sunny_helper.navigateToStatusPage(this.page)
+    }
+
+    async _sleep(ms) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve()
+            }, ms)
+        })
     }
 
 }

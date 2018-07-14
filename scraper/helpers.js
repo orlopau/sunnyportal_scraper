@@ -39,6 +39,9 @@ class Helpers {
         await password_field.type(pass);
 
         const navPromise = page.waitForNavigation({waitUntil: "domcontentloaded"});
+        if(!button){
+            throw new TypeError("Button cant be found! Try refreshing the site!");
+        }
         await button.click();
         await navPromise;
     }
