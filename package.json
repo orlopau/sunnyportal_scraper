@@ -4,7 +4,7 @@
   "version": "1.0.9",
   "description": "Scrapes the Sunnyportal using headless chromium.",
   "scripts": {
-    "test": "SUNNY_USER=mail@mail.com SUNNY_PASS=pass mocha --bail"
+    "test": "mocha --bail"
   },
   "keywords": [
     "sunnnyportal",

@@ -15,7 +15,7 @@ function sleep(ms) {
 
 describe("Scraper", function () {
     this.timeout(20000);
-    const scraper = new Scraper(process.env.SUNNY_USER, process.env.SUNNY_PASS);
+    const scraper = new Scraper(process.env.USERNAME, process.env.PASSWORD);
 
     describe("launch", function () {
        it("should open the browser", async function() {

@@ -51,13 +51,7 @@ class Helpers {
      * @returns {!Promise<void>}
      */
     static async navigateToStatusPage(page) {
-        let button_chevron = await page.$("#collapseNavi");
-        await button_chevron.click();
-
-        let nav_promise = page.waitForNavigation({waitUntil: "domcontentloaded"});
-        let button_status = await page.$("#ctl00_NavigationLeftMenuControl_0_2");
-        await button_status.click();
-        await nav_promise;
+        await page.goto("https://www.sunnyportal.com/FixedPages/HoManLive.aspx", {waitUntil: "domcontentloaded"});
     }
 
     /**

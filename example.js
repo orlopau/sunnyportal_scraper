@@ -1,5 +1,5 @@
 const Scraper = require('./index');
-const scraper = new Scraper(process.env.USERNAME, process.env.PASSWORD, 15);
+const scraper = new Scraper(process.env.USERNAME, process.env.PASSWORD, 60);
 
 async function setup() {
     await scraper.setup(false, ['--no-sandbox', '--disable-setuid-sandbox']);

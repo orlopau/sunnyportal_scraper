@@ -23,7 +23,7 @@ class Scraper {
         this.dataRefreshMillis = dataRefreshTimer * 1000;
         this.data = null;
         this.isRelogging = false;
-        this.relogError = false;
+        this.relogTimeout = false;
     }
 
     /**
@@ -106,23 +106,26 @@ class Scraper {
      * Performs login or relog on page.
      * @returns {Promise<void>}
      */
-    async login(force = false) {
-        if(this.relogError && !force){
-            console.log("Wont relog already recursively relogging!");
-            return;
+    async login() {
+        // Login relog timeout
+        if(this.relogTimeout){
+            console.log("Relog timeout!");
+            return
         }
+
+        this.relogTimeout = true;
+
+        setTimeout(() => {
+            this.relogTimeout = false;
+        }, 30000);
 
         await this.page.goto("https://www.sunnyportal.com", {waitUntil: "domcontentloaded"});
         if (this.page.$("ctl00_ContentPlaceHolder1_Logincontrol1_DivLogin") != null && !this.page.url().includes("UserProfile")) {
             /* Not logged in, login field exists. */
             try {
                 await sunny_helper.authenticate(this.page, this.pass, this.user);
-                this.relogError = false;
             } catch (e) {
                 console.log("Error in login method: Couldnt authenticate: " + e);
-                this.relogError = true;
-                await this._sleep(10000);
-                await this.login(true)
             }
         }
 
