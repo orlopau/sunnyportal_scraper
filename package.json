@@ -1,7 +1,7 @@
 {
   "name": "sunnyportal-scraper",
   "main": "index.js",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Scrapes the Sunnyportal using headless chromium.",
   "scripts": {
     "test": "mocha --bail"
