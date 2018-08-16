@@ -15,12 +15,14 @@ class Scraper {
      * @param {string} password Password
      * @param {number }refreshLoginTimer time until login is refreshed in seconds
      * @param {number} dataRefreshTimer data update interval in seconds
+     * @param  {number} relogTimeoutSecs relog timeout in seconds
      */
-    constructor(username, password, refreshLoginTimer = 5 * 60, dataRefreshTimer = 5) {
+    constructor(username, password, refreshLoginTimer = 5 * 60, dataRefreshTimer = 5, relogTimeoutSecs = 10) {
         this.user = username;
         this.pass = password;
         this.timeRefreshMillis = refreshLoginTimer * 1000;
         this.dataRefreshMillis = dataRefreshTimer * 1000;
+        this.relogTimeoutSecs = relogTimeoutSecs * 1000;
         this.data = null;
         this.isRelogging = false;
         this.relogTimeout = false;
@@ -117,7 +119,7 @@ class Scraper {
 
         setTimeout(() => {
             this.relogTimeout = false;
-        }, 30000);
+        }, this.relogTimeoutSecs);
 
         await this.page.goto("https://www.sunnyportal.com", {waitUntil: "domcontentloaded"});
         if (this.page.$("ctl00_ContentPlaceHolder1_Logincontrol1_DivLogin") != null && !this.page.url().includes("UserProfile")) {
