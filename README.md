@@ -2,6 +2,8 @@
 
 [![NPM](https://nodei.co/npm/sunnyportal-scraper.png)](https://nodei.co/npm/sunnyportal-scraper/)
 
+# The library is deprectaed. Use [the modbus protocol](https://github.com/orlopau/sma_modbus) instead.
+
 NodeJS library to retrieve information on PV plants from the [Sunnyportal](https://www.sunnyportal.com).  
 Documentation can be found [here](https://orlopau.github.io/sunnyportal_scraper).
 An example file is included [here](example.js)
